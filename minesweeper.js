@@ -1,17 +1,50 @@
-const grid = [];
-
 //minesweeper board
-const board = document.querySelector('#board');
+let canvas = document.querySelector('#canvas');
+let cols = 9;
+let rows = 9;
+let size = 24;
 
-for (let i = 0; i < 10; i++) {
-  const cell = document.createElement('div');
-  cell.classList.add('cell');
-  cell.textContent = i;
+let cells = new Map([
+  ['0-0', 1],
+  ['0-1', 1],
+  ['1-0', 1],
+  ['1-1', 1],
+]);
+let revealedKeys = new Set();
 
-  for (let j = 0; j < 9; j++) {
-    const span = document.createElement('span');
-    span.textContent = j + 1;
-    cell.appendChild(span);
-  }
-  board.appendChild(cell);
+function toKey(row, col) {
+  return row + '-' + col;
 }
+
+function createButtons() {
+  canvas.style.width = rows * size + 'px';
+  canvas.style.height = cols * size + 'px';
+  canvas.style.margin = '0 auto';
+  for (let i = 0; i < rows; i++) {
+    for (let j = 0; j < cols; j++) {
+      let btn = document.createElement('button');
+      btn.style.width = size + 'px';
+      btn.style.height = size + 'px';
+      let key = toKey(i, j);
+      canvas.appendChild(btn);
+    }
+  }
+}
+
+function updateButtons() {
+  for (let i = 0; i < rows; i++) {
+    for (let j = 0; j < cols; j++) {
+      let key = toKey(i, j);
+      let cell = cells.get(key);
+      if (revealedKeys.has(key)) {
+        // do something
+        cell.disabled = true;
+      } else {
+        cell.disabled = false;
+        cell.textContent = '';
+      }
+    }
+  }
+}
+
+createButtons();
