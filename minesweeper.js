@@ -22,11 +22,12 @@ function createButtons() {
   canvas.style.margin = '0 auto';
   for (let i = 0; i < rows; i++) {
     for (let j = 0; j < cols; j++) {
-      let btn = document.createElement('button');
-      btn.style.width = size + 'px';
-      btn.style.height = size + 'px';
+      let cell = document.createElement('button');
+      cell.style.width = size + 'px';
+      cell.style.height = size + 'px';
+      cell.onclick = () => console.log('click');
       let key = toKey(i, j);
-      canvas.appendChild(btn);
+      canvas.appendChild(cell);
     }
   }
 }
@@ -39,6 +40,8 @@ function updateButtons() {
       if (revealedKeys.has(key)) {
         // do something
         cell.disabled = true;
+        let value = values.get(key);
+        cell.textContent = value.toString();
       } else {
         cell.disabled = false;
         cell.textContent = '';
